@@ -9,9 +9,9 @@ import pandas as pd
 
 def get_deltas(data: pd.DataFrame, freq: pd.Timedelta):
     """
-    :param data: DataFrame containing "y" as a target and "dt" as datetime columns
-    :param freq: time series step
-    :return deltas: DataFrame containing timestamps of missed periods (start point) and their duration
+    :param data: (pd.DataFrame) data containing "y" as a target and "dt" as datetime columns
+    :param freq: (pd.Timedelta) time series step
+    :return deltas: (pd.DataFrame) containing timestamps of missed periods (start point) and their duration
     """
     data = data.groupby('dt').mean().reset_index().dropna(subset=['y'])
     deltas = pd.DataFrame([])
@@ -27,11 +27,11 @@ def get_deltas(data: pd.DataFrame, freq: pd.Timedelta):
 
 def get_interpolation(data: pd.DataFrame, start: pd.Timestamp, steps: int, freq: pd.Timedelta):
     """
-    :param data: DataFrame containing "y" as a target and "dt" as datetime columns
-    :param start: start of the missing period
-    :param steps: number of missed steps
-    :param freq: time series step
-    :return result: DataFrame with interpolated data for certain missing period
+    :param data: (pd.DataFrame) data containing "y" as a target and "dt" as datetime columns
+    :param start: (pd.Timestamp) start of the missing period
+    :param steps: (int) number of missed steps
+    :param freq: (pd.Timedelta) time series step
+    :return result: (pd.DataFrame) interpolated data for certain missing period
     """
     result = pd.DataFrame([])
     for i in range(0, steps):
@@ -51,13 +51,13 @@ def get_interpolation(data: pd.DataFrame, start: pd.Timestamp, steps: int, freq:
     return result
 
 
-def fill_missing(data: pd.DataFrame, freq: int, ranges=None):
+def fill_missing(data: pd.DataFrame, freq: str, ranges=None):
     """
-    :param data: DataFrame containing "y" as a target and "dt" as datetime columns
-    :param freq: time series step in seconds
-    :param ranges: list of string representation of Timedelta. 1st - short period, 2nd - long period.
-    :return data: DataFrame with filled missing values
-    :return deltas: DataFrame containing timestamps of missed periods (start point) and their duration
+    :param data: (pd.DataFrame) containing "y" as a target and "dt" as datetime columns
+    :param freq: (str) time series step
+    :param ranges: (list) list of string representations of pf.Timedelta. 1st - short period, 2nd - long period.
+    :return data: (pd.DataFrame) data with filled missing values
+    :return deltas: (pd.DataFrame) timestamps of missed periods (start point) and their duration
     """
     freq = pd.Timedelta(freq)
     if ranges is None:
